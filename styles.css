@@ -1,3 +1,5 @@
 #screen{
     border: black 2px solid;
+    width: 50%;
+    text-align: end;
 }

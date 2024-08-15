@@ -2,15 +2,16 @@
 let operand1 = "";
 let operand2 = "";
 let operator;
-let displayText = "";
 let symbolPressed = false;
+let result = 0;
 
-const symbolObj = {
-    add : "+",
-    subtract : "-",
-    multiply : "x",
-    divide : "/",
-}
+const operations = {
+    add: add,
+    subtract: subtract,
+    multiply: multiply,
+    divide: divide,
+  };
+
 // ------------------------------------------------------------
 
 // Calculation Functions --------------------------------------
@@ -32,17 +33,6 @@ function divide(a, b){
     }
     return a / b;
 }
-
-function operate(symbol, num1, num2){
-    if(symbol == "+")
-        add(num1, num2);
-    else if(symbol == "-")
-        subtract(num1, num2);
-    else if(symbol == "*")
-        multiply(num1, num2);
-    else if(symbol == "/")
-        divide(num1, num2);
-}
 // ------------------------------------------------------------
 
 // Button Handling --------------------------------------------
@@ -53,24 +43,43 @@ buttons.addEventListener('click', (event) => {
     if(!isButton)
         return;
 
-    if(!isNaN(event.target.id) || event.target.id == ".")
-    {
-        if(!symbolPressed)
-            operand1 += event.target.id;
-        else
+    if(!isNaN(event.target.id) || (event.target.id == "." && (!operand1.includes(".") || !operand2.includes(".")))){
+        if(!symbolPressed){
+            if(result != 0)
+                operand1 = event.target.id;
+            else{
+                operand1 += event.target.id;                
+                result = 0;
+            }
+            updateDisplay(operand1);    
+        }
+        else{
             operand2 += event.target.id;
+            updateDisplay(operand2);
+        }
     }
-    else if(symbolObj[event.target.id])
+    else if(operations[event.target.id])
     {
+        operator = event.target.id;                
         symbolPressed = true;
     }
     else if(event.target.id == "equal")
     {
+        result = operations[operator](Number(operand1), Number(operand2));
+        operand1 = String(result);
+        updateDisplay(result);
+        console.log(result);
+                
+        operand2 = "";
         symbolPressed = false;
     }
-        
-
-    updateDisplay(event.target.id);
+    else if(event.target.id == "clear"){
+        operand1 = "";
+        operand2 = "";
+        result = 0;
+        symbolPressed = false;
+        updateDisplay("0");
+    }
     console.log(operand1 + "  " + operand2);
 })
 // ------------------------------------------------------------
@@ -78,12 +87,8 @@ buttons.addEventListener('click', (event) => {
 // Display Updating -------------------------------------------
 const screen = document.getElementById("screen")
 
-function updateDisplay(id){
-    if(!isNaN(id))
-        displayText += id;
-    else if(id == "decimal" && !displayText.includes("."))
-        displayText += "."
-    
-    screen.innerHTML = displayText;
+function updateDisplay(text){
+    screen.innerHTML = ""
+    screen.innerHTML = text;
 }
 // ------------------------------------------------------------
