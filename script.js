@@ -15,20 +15,25 @@ const operations = {
 // ------------------------------------------------------------
 
 // Calculation Functions --------------------------------------
-function add(a, b){
+function add(a, b)
+{
     return a + b;
 }
 
-function subtract(a, b){
+function subtract(a, b)
+{
     return a - b;
 }
 
-function multiply(a, b){
+function multiply(a, b)
+{
     return a * b;
 }
 
-function divide(a, b){
-    if(b == 0){
+function divide(a, b)
+{
+    if (b == 0)
+    {
         return "BAD";
     }
     return a / b;
@@ -40,42 +45,47 @@ const buttons = document.getElementById("buttons");
 
 buttons.addEventListener('click', (event) => {
     const isButton = event.target.nodeName === 'BUTTON';
-    if(!isButton)
+    if (!isButton)
         return;
-    if(!isNaN(event.target.id) || (event.target.id == "." && (!operand1.includes(".") || !operand2.includes(".")))){
-        if(!symbolPressed){
-            if(result != 0)
+    if (!isNaN(event.target.id) || (event.target.id == "." && (!operand1.includes(".") || !operand2.includes("."))))
+    {
+        if (!symbolPressed)
+        {
+            if (result != 0)
                 operand1 = event.target.id;
-            else{
+            else
+            {
                 operand1 += event.target.id;                
                 result = 0;
             }
             updateDisplay(operand1);    
         }
-        else{
+        else
+        {
             operand2 += event.target.id;
             updateDisplay(operand2);
         }
     }
-    else if(operations[event.target.id])
+    else if (operations[event.target.id])
     {
-        if(operator != "")
+        if (operator != "")
             calculateAndReset();
-
         operator = event.target.id;        
         symbolPressed = true;
     }
-    else if(event.target.id == "equal")
+    else if (event.target.id == "equal")
     {
         calculateAndReset();
     }
-    else if(event.target.id == "clear"){
+    else if (event.target.id == "clear")
+    {
         clear();
     }
     console.log(operand1 + "  " + operand2);
 })
 
-function calculateAndReset(){
+function calculateAndReset()
+{
     result = operations[operator](Number(operand1), Number(operand2));
     operand1 = String(result);
     updateDisplay(result);
@@ -85,7 +95,8 @@ function calculateAndReset(){
     symbolPressed = false;
 }
 
-function clear(){
+function clear()
+{
     operand1 = "";
     operand2 = "";
     result = 0;
@@ -97,7 +108,8 @@ function clear(){
 // Display Updating -------------------------------------------
 const screen = document.getElementById("screen")
 
-function updateDisplay(text){
+function updateDisplay(text)
+{
     screen.innerHTML = ""
     screen.innerHTML = text;
 }
