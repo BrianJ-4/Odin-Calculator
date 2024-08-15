@@ -77,9 +77,7 @@ buttons.addEventListener('click', (event) => {
                 
         operand2 = "";
         symbolPressed = false;
-        for(const [key, value] of Object.entries(operations)){
-            document.getElementById(key).disabled = false;
-        }
+        resetButtons();
     }
     else if(event.target.id == "clear"){
         operand1 = "";
@@ -87,9 +85,16 @@ buttons.addEventListener('click', (event) => {
         result = 0;
         symbolPressed = false;
         updateDisplay("0");
+        resetButtons();
     }
     console.log(operand1 + "  " + operand2);
 })
+
+function resetButtons(){
+    for(const [key, value] of Object.entries(operations)){
+        document.getElementById(key).disabled = false;
+    }
+}
 // ------------------------------------------------------------
 
 // Display Updating -------------------------------------------
