@@ -60,7 +60,12 @@ buttons.addEventListener('click', (event) => {
     }
     else if(operations[event.target.id])
     {
-        operator = event.target.id;                
+        operator = event.target.id;
+        for(const [key, value] of Object.entries(operations)){
+            if(key != operator)
+                document.getElementById(key).disabled = true;
+        }
+
         symbolPressed = true;
     }
     else if(event.target.id == "equal")
@@ -72,6 +77,9 @@ buttons.addEventListener('click', (event) => {
                 
         operand2 = "";
         symbolPressed = false;
+        for(const [key, value] of Object.entries(operations)){
+            document.getElementById(key).disabled = false;
+        }
     }
     else if(event.target.id == "clear"){
         operand1 = "";
