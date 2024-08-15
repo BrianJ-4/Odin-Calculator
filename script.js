@@ -1,7 +1,7 @@
 // Global Variables -------------------------------------------
 let operand1 = "";
 let operand2 = "";
-let operator;
+let operator = "";
 let symbolPressed = false;
 let result = 0;
 
@@ -42,7 +42,6 @@ buttons.addEventListener('click', (event) => {
     const isButton = event.target.nodeName === 'BUTTON';
     if(!isButton)
         return;
-
     if(!isNaN(event.target.id) || (event.target.id == "." && (!operand1.includes(".") || !operand2.includes(".")))){
         if(!symbolPressed){
             if(result != 0)
@@ -60,40 +59,38 @@ buttons.addEventListener('click', (event) => {
     }
     else if(operations[event.target.id])
     {
-        operator = event.target.id;
-        for(const [key, value] of Object.entries(operations)){
-            if(key != operator)
-                document.getElementById(key).disabled = true;
-        }
+        if(operator != "")
+            calculateAndReset();
 
+        operator = event.target.id;        
         symbolPressed = true;
     }
     else if(event.target.id == "equal")
     {
-        result = operations[operator](Number(operand1), Number(operand2));
-        operand1 = String(result);
-        updateDisplay(result);
-        console.log(result);
-                
-        operand2 = "";
-        symbolPressed = false;
-        resetButtons();
+        calculateAndReset();
     }
     else if(event.target.id == "clear"){
-        operand1 = "";
-        operand2 = "";
-        result = 0;
-        symbolPressed = false;
-        updateDisplay("0");
-        resetButtons();
+        clear();
     }
     console.log(operand1 + "  " + operand2);
 })
 
-function resetButtons(){
-    for(const [key, value] of Object.entries(operations)){
-        document.getElementById(key).disabled = false;
-    }
+function calculateAndReset(){
+    result = operations[operator](Number(operand1), Number(operand2));
+    operand1 = String(result);
+    updateDisplay(result);
+    console.log(result);
+            
+    operand2 = "";
+    symbolPressed = false;
+}
+
+function clear(){
+    operand1 = "";
+    operand2 = "";
+    result = 0;
+    symbolPressed = false;
+    updateDisplay("0");
 }
 // ------------------------------------------------------------
 
