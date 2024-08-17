@@ -43,6 +43,7 @@ function divide(a, b)
 const digitButtons = document.querySelectorAll(".digitButton");
 const operatorButtons = document.querySelectorAll(".operatorButton");
 const equalButton = document.getElementById("equal");
+const clearButton = document.getElementById("clear");
 
 digitButtons.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -57,7 +58,11 @@ operatorButtons.forEach(button => {
 })
 
 equalButton.addEventListener('click', (event) => {
-    processEqualButton(equalButton);
+    calculate();
+})
+
+clearButton.addEventListener('click', (event) => {
+    clear();
 })
 // ------------------------------------------------------------
 
@@ -101,10 +106,13 @@ function processOperatorButton(button)
     operator = button.id;
 }
 
-function processEqualButton()
+function clear()
 {
-    //Handle case where user enters operand, operator, operand, equals
-    calculate();
+    result = "";
+    operand1 = "";
+    operand2 = "";
+    operator = "";
+    updateDisplay("0");
 }
 // ------------------------------------------------------------
 
@@ -114,6 +122,7 @@ function calculate()
     if(operand1 != "" && operand2 != "")
     {
         result = operations[operator](Number(operand1), Number(operand2));
+        result = String(Math.round(Number(result) * 100000) / 100000);
         updateDisplay(result);
         operand1 = "";
         operand2 = "";
