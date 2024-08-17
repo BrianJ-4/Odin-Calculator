@@ -2,8 +2,7 @@
 let operand1 = "";
 let operand2 = "";
 let operator = "";
-let symbolPressed = false;
-let result = 0;
+let result = "";
 
 const operations = {
     add: add,
@@ -40,68 +39,87 @@ function divide(a, b)
 }
 // ------------------------------------------------------------
 
-// Button Handling --------------------------------------------
-const buttons = document.getElementById("buttons");
+// Button Setup -----------------------------------------------
+const digitButtons = document.querySelectorAll(".digitButton");
+const operatorButtons = document.querySelectorAll(".operatorButton");
+const equalButton = document.getElementById("equal");
 
-buttons.addEventListener('click', (event) => {
-    const isButton = event.target.nodeName === 'BUTTON';
-    if (!isButton)
-        return;
-    if (!isNaN(event.target.id) || (event.target.id == "." && (!operand1.includes(".") || !operand2.includes("."))))
-    {
-        if (!symbolPressed)
-        {
-            if (result != 0)
-                operand1 = event.target.id;
-            else
-            {
-                operand1 += event.target.id;                
-                result = 0;
-            }
-            updateDisplay(operand1);    
-        }
-        else
-        {
-            operand2 += event.target.id;
-            updateDisplay(operand2);
-        }
-    }
-    else if (operations[event.target.id])
-    {
-        if (operator != "")
-            calculateAndReset();
-        operator = event.target.id;        
-        symbolPressed = true;
-    }
-    else if (event.target.id == "equal")
-    {
-        calculateAndReset();
-    }
-    else if (event.target.id == "clear")
-    {
-        clear();
-    }
-    console.log(operand1 + "  " + operand2);
+digitButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        processDigitButton(button);
+    })
 })
 
-function calculateAndReset()
+operatorButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        processOperatorButton(button);
+    })
+})
+
+equalButton.addEventListener('click', (event) => {
+    processEqualButton(equalButton);
+})
+// ------------------------------------------------------------
+
+// Button Handling --------------------------------------------
+function processDigitButton(button)
 {
-    result = operations[operator](Number(operand1), Number(operand2));
-    operand1 = String(result);
-    updateDisplay(result);
-    console.log(result);
-            
-    operand2 = "";
-    symbolPressed = false;
+    //Reset result if we already have a result value and we press a digit
+    if(result != "")
+    {
+        result = "";
+    }
+
+    if (operator == "")
+    {
+        if(button.id == "." && operand1.includes("."))          
+            return;
+        operand1 += button.id;
+        updateDisplay(operand1);
+    }
+    else
+    {
+        if(button.id == "." && operand2.includes("."))       
+            return;
+        operand2 += button.id;
+        updateDisplay(operand2);
+    }
+    
+    console.log(operand1 + "  " + operand2);
 }
 
-function clear()
+function processOperatorButton(button)
 {
-    operand1 = "";
-    operand2 = "";
-    result = 0;
-    symbolPressed = false;
-    updateDisplay("0");
+    //Handle case where user enters operand, operator, operand, operator
+    calculate();
+
+    if(result != "")
+    {
+        operand1 = result;
+    }
+
+    operator = button.id;
+}
+
+function processEqualButton()
+{
+    //Handle case where user enters operand, operator, operand, equals
+    calculate();
+}
+// ------------------------------------------------------------
+
+// Main Calculation Function ----------------------------------
+function calculate()
+{
+    if(operand1 != "" && operand2 != "")
+    {
+        result = operations[operator](Number(operand1), Number(operand2));
+        updateDisplay(result);
+        operand1 = "";
+        operand2 = "";
+        operator = "";
+        console.log(result);
+    }
 }
 // ------------------------------------------------------------
 
