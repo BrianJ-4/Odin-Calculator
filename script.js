@@ -72,11 +72,15 @@ function processDigitButton(button)
 
     if (operator == "")
     {
+        if(button.id == "." && operand1.includes("."))          
+            return;
         operand1 += button.id;
         updateDisplay(operand1);
     }
     else
     {
+        if(button.id == "." && operand2.includes("."))       
+            return;
         operand2 += button.id;
         updateDisplay(operand2);
     }
@@ -97,7 +101,7 @@ function processOperatorButton(button)
     operator = button.id;
 }
 
-function processEqualButton(equalButton)
+function processEqualButton()
 {
     //Handle case where user enters operand, operator, operand, equals
     calculate();
