@@ -3,6 +3,7 @@ let operand1 = "";
 let operand2 = "";
 let operator = "";
 let result = "";
+let firstInput = true;
 
 const operations = {
     add: add,
@@ -44,6 +45,7 @@ const digitButtons = document.querySelectorAll(".digitButton");
 const operatorButtons = document.querySelectorAll(".operatorButton");
 const equalButton = document.getElementById("equal");
 const clearButton = document.getElementById("clear");
+const deleteButton = document.getElementById("delete");
 
 digitButtons.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -63,6 +65,10 @@ equalButton.addEventListener('click', (event) => {
 
 clearButton.addEventListener('click', (event) => {
     clear();
+})
+
+deleteButton.addEventListener('click', (event) => {
+    backspace();
 })
 // ------------------------------------------------------------
 
@@ -89,13 +95,15 @@ function processDigitButton(button)
         operand2 += button.id;
         updateDisplay(operand2);
     }
-    
+    firstInput = false;
     console.log(operand1 + "  " + operand2);
 }
 
 function processOperatorButton(button)
 {
-    //Handle case where user enters operand, operator, operand, operator
+    if(firstInput)
+        return;
+
     calculate();
 
     if(result != "")
@@ -112,7 +120,28 @@ function clear()
     operand1 = "";
     operand2 = "";
     operator = "";
+    firstInput = true;
     updateDisplay("0");
+}
+
+function backspace()
+{
+    if (operator == "")
+    {
+        operand1 = operand1.substring(0, operand1.length - 1);
+        if(operand1.length == 0)
+        {
+            updateDisplay("0");
+            firstInput = true;
+        }
+        else
+            updateDisplay(operand1);
+    }
+    else
+    {
+        operand2 = operand2.substring(0, operand2.length - 1);
+        updateDisplay(operand2);
+    }
 }
 // ------------------------------------------------------------
 

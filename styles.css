@@ -3,3 +3,8 @@
     width: 50%;
     text-align: end;
 }
+
+.row{
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
