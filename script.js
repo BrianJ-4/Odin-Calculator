@@ -76,7 +76,7 @@ deleteButton.addEventListener('click', (event) => {
 function processDigitButton(button)
 {
     //Reset result if we already have a result value and we press a digit
-    if(result != "")
+    if (result != "")
     {
         result = "";
     }
@@ -90,7 +90,7 @@ function processDigitButton(button)
     }
     else
     {
-        if(button.id == "." && operand2.includes("."))       
+        if (button.id == "." && operand2.includes("."))       
             return;
         operand2 += button.id;
         updateDisplay(operand2);
@@ -101,12 +101,12 @@ function processDigitButton(button)
 
 function processOperatorButton(button)
 {
-    if(firstInput)
+    if (firstInput)
         return;
 
     calculate();
 
-    if(result != "")
+    if (result != "")
     {
         operand1 = result;
     }
@@ -129,7 +129,7 @@ function backspace()
     if (operator == "")
     {
         operand1 = operand1.substring(0, operand1.length - 1);
-        if(operand1.length == 0)
+        if (operand1.length == 0)
         {
             updateDisplay("0");
             firstInput = true;
@@ -148,10 +148,11 @@ function backspace()
 // Main Calculation Function ----------------------------------
 function calculate()
 {
-    if(operand1 != "" && operand2 != "")
+    if (operand1 != "" && operand2 != "")
     {
         result = operations[operator](Number(operand1), Number(operand2));
-        result = String(Math.round(Number(result) * 100000) / 100000);
+        if (result != "BAD")            
+            result = String(Math.round(Number(result) * 100000) / 100000);
         updateDisplay(result);
         operand1 = "";
         operand2 = "";
