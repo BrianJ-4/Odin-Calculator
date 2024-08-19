@@ -20,7 +20,6 @@ html, body {
 .digitButton, .operatorButton, .button {
     border-radius: 5px;
     border: rgb(39, 39, 39) solid 1px;
-    font-weight: initial;
     font-size: 3em;
     font-family: monospace;
     color: white;
@@ -49,5 +48,13 @@ html, body {
 
 #equal {
     background-color: #29f7ff;
-    color: black;
+    color: #3b3b3b;
+}
+
+.digitButton:active, .operatorButton:active, .button:active {    
+    background-color: #29f7ff;
+}
+
+#equal:active {
+    background-color: #3b3b3b;
 }
