@@ -4,6 +4,7 @@ let operand2 = "";
 let operator = "";
 let result = "";
 let firstInput = true;
+let divideByZeroReaction = "╚(•⌂•)╝"
 
 const operations = {
     add: add,
@@ -34,7 +35,7 @@ function divide(a, b)
 {
     if (b == 0)
     {
-        return "BAD";
+        return divideByZeroReaction;
     }
     return a / b;
 }
@@ -151,7 +152,7 @@ function calculate()
     if (operand1 != "" && operand2 != "")
     {
         result = operations[operator](Number(operand1), Number(operand2));
-        if (result != "BAD")            
+        if (result != divideByZeroReaction)            
             result = String(Math.round(Number(result) * 100000) / 100000);
         updateDisplay(result);
         operand1 = "";

@@ -1,10 +1,53 @@
-#screen{
-    border: black 2px solid;
-    width: 50%;
-    text-align: end;
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c2c2c;
 }
 
-.row{
-    padding-top: 3px;
-    padding-bottom: 3px;
+#screen{
+    border: #29f7ff 2px solid;
+    width: 500px;
+    text-align: end;
+    font-family: monospace;
+    font-size: 4em;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.digitButton, .operatorButton, .button {
+    border-radius: 5px;
+    border: rgb(39, 39, 39) solid 1px;
+    font-weight: initial;
+    font-size: 3em;
+    font-family: monospace;
+    color: white;
+    flex-basis: 25%;
+    background-color: #3b3b3b;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: #252525 10px solid;
+    background-color: #252525;
+}
+
+#\30, #clear{
+    flex-basis: 50%;
+}
+
+.row {
+    display: flex;
+    width: 500px;
+    height: 75px;
+}
+
+#equal {
+    background-color: #29f7ff;
+    color: black;
 }
