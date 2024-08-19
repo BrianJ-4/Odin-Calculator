@@ -106,7 +106,7 @@ function processOperatorButton(button)
         return;
 
     let calculationError = calculate();
-    
+
     // Check if the calculation resulted in an error, and if so, we don't
     // care for the operator they just pressed, so return
     // Issue #3
@@ -145,7 +145,13 @@ function backspace()
     else
     {
         operand2 = operand2.substring(0, operand2.length - 1);
-        updateDisplay(operand2);
+        if (operand2.length == 0)
+        {
+            updateDisplay("0");
+            firstInput = true;
+        }
+        else
+            updateDisplay(operand2);
     }
 }
 // ------------------------------------------------------------
