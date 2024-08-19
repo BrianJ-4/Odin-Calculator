@@ -84,7 +84,7 @@ function processDigitButton(button)
 
     if (operator == "")
     {
-        if(button.id == "." && operand1.includes("."))          
+        if (button.id == "." && operand1.includes("."))          
             return;
         operand1 += button.id;
         updateDisplay(operand1);
@@ -105,24 +105,28 @@ function processOperatorButton(button)
     if (firstInput)
         return;
 
-    calculate();
+    let calculationError = calculate();
+    
+    // Check if the calculation resulted in an error, and if so, we don't
+    // care for the operator they just pressed, so return
+    // Issue #3
+    if(calculationError == divideByZeroReaction)
+        return;
 
     if (result != "")
-    {
         operand1 = result;
-    }
 
     operator = button.id;
 }
 
-function clear()
+function clear(toDisplay = "0")
 {
     result = "";
     operand1 = "";
     operand2 = "";
     operator = "";
     firstInput = true;
-    updateDisplay("0");
+    updateDisplay(toDisplay);
 }
 
 function backspace()
@@ -152,8 +156,18 @@ function calculate()
     if (operand1 != "" && operand2 != "")
     {
         result = operations[operator](Number(operand1), Number(operand2));
-        if (result != divideByZeroReaction)            
-            result = String(Math.round(Number(result) * 100000) / 100000);
+
+        // If we get a divide by zero error we should clear everything to
+        // reset the calculator and pass the error to the caller so 
+        // the appropriate steps can be taken if needed
+        // Issue #3
+        if (result == divideByZeroReaction)
+        {
+            clear(divideByZeroReaction);
+            return divideByZeroReaction;
+        }
+                 
+        result = String(Math.round(Number(result) * 100000) / 100000);
         updateDisplay(result);
         operand1 = "";
         operand2 = "";
