@@ -97,7 +97,7 @@ function processDigitButton(button)
     {
         // Keep the max operand length as 15 digits
         // Issue #7
-        if (operand1.length == 15)
+        if (operand2.length == 15)
             return;
         if (button.id == "." && operand2.includes("."))       
             return;
