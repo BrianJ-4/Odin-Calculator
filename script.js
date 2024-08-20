@@ -64,25 +64,30 @@ const deleteButton = document.getElementById("delete");
 digitButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         processDigitButton(button);
+        event.target.blur();
     })
 })
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         processOperatorButton(button);
+        event.target.blur();
     })
 })
 
 equalButton.addEventListener('click', (event) => {
     calculate();
+    event.target.blur();
 })
 
 clearButton.addEventListener('click', (event) => {
     clear();
+    event.target.blur();
 })
 
 deleteButton.addEventListener('click', (event) => {
     backspace();
+    event.target.blur();
 })
 // ------------------------------------------------------------
 
