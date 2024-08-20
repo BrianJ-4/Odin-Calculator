@@ -8,13 +8,14 @@ html, body {
 }
 
 #screen{
-    border: #29f7ff 2px solid;
+    border: #29f8ff75 2px solid;
     width: 500px;
     text-align: end;
     font-family: monospace;
-    font-size: 4em;
+    font-size: 5em;
     color: white;
     margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 .digitButton, .operatorButton, .button {
