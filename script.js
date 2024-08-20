@@ -10,8 +10,21 @@ const operations = {
     add: add,
     subtract: subtract,
     multiply: multiply,
-    divide: divide,
+    divide: divide
   };
+
+  const operationSymbols = {
+    "+": "add",
+    "-": "subtract",
+    "*": "multiply",
+    "/": "divide"
+  }
+
+  const inputActions = {
+    Enter: calculate,
+    Delete: clear,
+    Backspace: backspace
+  }
 
 // ------------------------------------------------------------
 
@@ -76,6 +89,11 @@ deleteButton.addEventListener('click', (event) => {
 // Button Handling --------------------------------------------
 function processDigitButton(button)
 {
+    if (button.id)
+        buttonName = button.id;
+    else
+        buttonName = button;
+
     //Reset result if we already have a result value and we press a digit
     if (result != "")
     {
@@ -88,9 +106,9 @@ function processDigitButton(button)
         // Issue #7
         if (operand1.length == 15)
             return;
-        if (button.id == "." && operand1.includes("."))          
+        if (buttonName == "." && operand1.includes("."))          
             return;
-        operand1 += button.id;
+        operand1 += buttonName;
         updateDisplay(operand1);
     }
     else
@@ -99,9 +117,9 @@ function processDigitButton(button)
         // Issue #7
         if (operand2.length == 15)
             return;
-        if (button.id == "." && operand2.includes("."))       
+        if (buttonName == "." && operand2.includes("."))       
             return;
-        operand2 += button.id;
+        operand2 += buttonName;
         updateDisplay(operand2);
     }
     firstInput = false;
@@ -110,6 +128,11 @@ function processDigitButton(button)
 
 function processOperatorButton(button)
 {
+    if (button.id)
+        operatorName = button.id;
+    else
+        operatorName = button;
+
     if (firstInput)
         return;
 
@@ -124,7 +147,7 @@ function processOperatorButton(button)
     if (result != "")
         operand1 = result;
 
-    operator = button.id;
+    operator = operatorName;
 }
 
 function clear(toDisplay = "0")
@@ -199,4 +222,30 @@ function updateDisplay(text)
     screen.innerHTML = ""
     screen.innerHTML = text;
 }
+// ------------------------------------------------------------
+
+// Keyboard Input  --------------------------------------------
+document.addEventListener("keydown", (event) => {
+    const keyName = event.key;
+    
+    //Check if digit or decimal and then process it
+    if(!isNaN(keyName) || keyName == ".")
+    {
+        processDigitButton(keyName);
+        return;
+    }
+
+    //Check if operator and then process it
+    if(keyName in operationSymbols)
+    {
+        processOperatorButton(operationSymbols[keyName]);
+        return;
+    }
+
+    //Check if action and then execute the action
+    if(keyName in inputActions)
+    {
+        inputActions[keyName]();
+    }
+})
 // ------------------------------------------------------------
