@@ -128,7 +128,6 @@ function processDigitButton(button)
         updateDisplay(operand2);
     }
     firstInput = false;
-    console.log(operand1 + "  " + operand2);
 }
 
 function processOperatorButton(button)
@@ -214,7 +213,6 @@ function calculate()
         operand1 = "";
         operand2 = "";
         operator = "";
-        console.log(result);
     }
 }
 // ------------------------------------------------------------
